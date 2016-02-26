@@ -36,7 +36,9 @@ public class SearchEngine_Lucene{
 	private Directory index;
 	
 	public SearchEngine_Lucene(){
+		
 		this.analyzer = new StandardAnalyzer();
+		
 		/* Create the index */
 		this.index = new RAMDirectory();
 		
@@ -51,33 +53,38 @@ public class SearchEngine_Lucene{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Index created");
 	}
 	
-	public List<String> basicSearch(String query, int numResultsToSkip, int numResultsToReturn) 
-			throws ParseException, IOException{
+	public List<String> basicSearch(String query, int numResultsToSkip, int numResultsToReturn) {
 		
 		List<String> res = new ArrayList<String>();
 		/*
 		 * the "title" arg specifies the default field to use when no field
 		 * is explicitly in the query
 		 * */
-		Query q = new QueryParser("title", analyzer).parse(query);
-		
-		/* search */
-		int hitsPerPage=numResultsToSkip + numResultsToReturn;
-		IndexReader reader = DirectoryReader.open(index);
-		IndexSearcher searcher = new IndexSearcher(reader);
-		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
-		searcher.search(q, collector);
-		
-		ScoreDoc[] hits = collector.topDocs().scoreDocs;
+		Query q;
+		try {
+			q = new QueryParser("title", analyzer).parse(query);
+			/* search */
+			int hitsPerPage=numResultsToSkip + numResultsToReturn;
+			IndexReader reader = DirectoryReader.open(index);
+			IndexSearcher searcher = new IndexSearcher(reader);
+			TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
+			searcher.search(q, collector);
+			
+			ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
-		for(int i = numResultsToSkip; i < hits.length; i++){
-			int docId = hits[i].doc;
-			Document document = searcher.doc(docId);
-			res.add(document.get("title"));
+			for(int i = numResultsToSkip; i < hits.length; i++){
+				int docId = hits[i].doc;
+				Document document = searcher.doc(docId);
+				res.add(document.get("title"));
+			}
+			reader.close();
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		reader.close();
 		return res;
 	}
 	
