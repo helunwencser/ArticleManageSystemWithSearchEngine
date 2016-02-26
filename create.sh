@@ -6,14 +6,6 @@ read -s password
 createDB="create database if not exists article;"
 mysql -u $username -p$password -e "$createDB"
 echo "create database successfully"
-createCoauthor_Table="use article;create table if not exists coauthor_table (
-    id int not null auto_increment,
-    authorA char(128) not null,
-    authorB char(128) not null,
-    primary key(id)
-    );"
-mysql -u $username -p$password -e "$createCoauthor_Table"
-echo "create coauthor_table successfully"
 createArticle_table="use article;create table if not exists article_table (
     id int not null auto_increment,
     title varchar(512) not null,
@@ -31,11 +23,3 @@ createArticle_table="use article;create table if not exists article_table (
     );"
 mysql -u $username -p$password -e "$createArticle_table"
 echo "create article_table successfully"
-createArticle_author_table="use article;create table if not exists article_author_table (
-    id int not null auto_increment,
-    title varchar(512) not null,
-    author char(128),
-    primary key(id)
-    );"
-mysql -u $username -p$password -e "$createArticle_author_table"
-echo "create article_author_table successfully"

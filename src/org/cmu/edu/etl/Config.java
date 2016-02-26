@@ -1,3 +1,4 @@
+package org.cmu.edu.etl;
 
 public class Config {
 	public static String USER = "root";
