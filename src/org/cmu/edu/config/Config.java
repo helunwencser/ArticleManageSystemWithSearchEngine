@@ -1,4 +1,4 @@
-package org.cmu.edu.etl;
+package org.cmu.edu.config;
 
 public class Config {
 	public static String USER = "root";
