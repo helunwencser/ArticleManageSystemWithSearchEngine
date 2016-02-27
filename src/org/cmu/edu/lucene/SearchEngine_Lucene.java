@@ -17,7 +17,7 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.cmu.edu.article.ArticleTitleAndAuthors;
-import org.cmu.edu.mysql.Reader;
+import org.cmu.edu.mysql.ReaderForBasicSearch;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class SearchEngine_Lucene{
 	}
 	
 	private List<ArticleTitleAndAuthors> getContent(){
-		Reader reader = new Reader();
+		ReaderForBasicSearch reader = new ReaderForBasicSearch();
 		List<ArticleTitleAndAuthors> res = reader.getContent();
 		reader.closeResources();
 		return res;

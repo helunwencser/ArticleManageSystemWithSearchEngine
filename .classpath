@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="/home/lunwenh/eclipse_workspace/ArticleManageSystemWithSearchEngine/lib/lucene-analyzers-common-5.5.0.jar"/>
 	<classpathentry kind="lib" path="/home/lunwenh/eclipse_workspace/ArticleManageSystemWithSearchEngine/lib/lucene-demo-5.5.0.jar"/>
 	<classpathentry kind="lib" path="/home/lunwenh/eclipse_workspace/ArticleManageSystemWithSearchEngine/lib/lucene-queryparser-5.5.0.jar"/>
+	<classpathentry kind="lib" path="/home/lunwenh/eclipse_workspace/ArticleManageSystemWithSearchEngine/lib/postgis.jar"/>
+	<classpathentry kind="lib" path="/home/lunwenh/eclipse_workspace/ArticleManageSystemWithSearchEngine/lib/postgresql-9.4.1208.jre6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

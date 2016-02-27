@@ -13,7 +13,7 @@ createArticle_table="use article;create table if not exists article_table (
     keywords char(128),
     authors varchar(256),
     pages char(16),
-    year POINT not null,
+    year GEOMETRY not null,
     volume char(16),
     journal char(128),
     number char(16),

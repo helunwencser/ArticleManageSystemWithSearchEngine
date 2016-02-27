@@ -6,15 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.cmu.edu.article.ArticleTitleAndAuthors;
 import org.cmu.edu.config.Config;
 
 
-public class Reader {
+public class ReaderForRegionSearch {
 	private String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	private String DB_URL = "jdbc:mysql://localhost/article";
 	
@@ -24,7 +21,7 @@ public class Reader {
 	private Connection conn = null;
 	private Statement stmt = null;
 	
-	public Reader(){
+	public ReaderForRegionSearch(){
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -54,6 +51,16 @@ public class Reader {
 		}
 	}
 	   
+/*
+ * mysql> SET @poly =
+    -> 'Polygon((30000 15000,
+                 31000 15000,
+                 31000 16000,
+                 30000 16000,
+                 30000 15000))';
+    SELECT fid,AsText(g) FROM geom WHERE
+    MBRContains(GeomFromText(@poly),g);
+ * */
 	public List<ArticleTitleAndAuthors> getContent(){
 		List<ArticleTitleAndAuthors> res = new ArrayList<ArticleTitleAndAuthors>();
 		try {

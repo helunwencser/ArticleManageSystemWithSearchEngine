@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.cmu.edu.config.Config;
+import org.postgis.Point;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -57,7 +58,8 @@ public class ETL {
 			stmtArticle.setString(4, article.getAuthorsToString());
 			stmtArticle.setString(5, article.getPages());
 			//stmtArticle.setString(6, article.getYear());
-			stmtArticle.setObject(6, "GeomFromText('POINT(" + article.getYear() + " 0)')");
+			stmtArticle.setString(6, "POINT(" + article.getYear() + " 0)");
+			//stmtArticle.setObject(6, new Point(Double.parseDouble(article.getYear()), 0));
 			stmtArticle.setString(7, article.getVolume());
 			stmtArticle.setString(8, article.getJournal());
 			stmtArticle.setString(9, article.getNumber());
@@ -76,7 +78,7 @@ public class ETL {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			String insertArticle = "insert into article_table (title, mdate, keywords, authors, pages, year, " + 
-									"volume, journal, number, ee, url) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+									"volume, journal, number, ee, url) values (?, ?, ?, ?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?)";
 			stmtArticle = conn.prepareStatement(insertArticle);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
