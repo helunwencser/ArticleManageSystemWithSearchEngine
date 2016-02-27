@@ -13,13 +13,15 @@ createArticle_table="use article;create table if not exists article_table (
     keywords char(128),
     authors varchar(256),
     pages char(16),
-    year char(16),
+    year POINT not null,
     volume char(16),
     journal char(128),
     number char(16),
     ee char(128),
     url char(128),
-    primary key(id)
-    );"
+    primary key(id),
+    SPATIAL INDEX(year)
+    )
+    ENGINE=MyISAM;"
 mysql -u $username -p$password -e "$createArticle_table"
 echo "create article_table successfully"

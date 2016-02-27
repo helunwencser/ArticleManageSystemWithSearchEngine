@@ -56,7 +56,8 @@ public class ETL {
 			stmtArticle.setString(3, article.getKey());
 			stmtArticle.setString(4, article.getAuthorsToString());
 			stmtArticle.setString(5, article.getPages());
-			stmtArticle.setString(6, article.getYear());
+			//stmtArticle.setString(6, article.getYear());
+			stmtArticle.setObject(6, "GeomFromText('POINT(" + article.getYear() + " 0)')");
 			stmtArticle.setString(7, article.getVolume());
 			stmtArticle.setString(8, article.getJournal());
 			stmtArticle.setString(9, article.getNumber());
