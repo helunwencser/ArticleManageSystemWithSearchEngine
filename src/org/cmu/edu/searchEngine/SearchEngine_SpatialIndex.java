@@ -1,4 +1,4 @@
-package org.cmu.edu.lucene;
+package org.cmu.edu.searchEngine;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -17,7 +17,7 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.cmu.edu.article.ArticleTitleAndAuthors;
-import org.cmu.edu.mysql.ReaderForBasicSearch;
+import org.cmu.edu.mysql.ReaderForRegionSearch;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,45 +25,47 @@ import java.util.List;
 
 /* 
  * This is the class which defines the functionality of search
- * engine based on lucene, the version of lucene is 5.5.0.
+ * engine based on spatial index in MySQL.
  * 
  * */
 
-public class SearchEngine_Lucene{
+public class SearchEngine_SpatialIndex{
 
 	private StandardAnalyzer analyzer;
 	
 	private Directory index;
 	
-	public SearchEngine_Lucene(){
+	public SearchEngine_SpatialIndex(){
 		
 		this.analyzer = new StandardAnalyzer();
 		
 		/* Create the index */
 		this.index = new RAMDirectory();
+	}
+	
+	public List<String> spatialSearch(String query, String startYear, String endYear, 
+			int numResultsToSkip, int numResultsToReturn){
+		
+		List<String> res = new ArrayList<String>();
 		
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
-		
+
 		IndexWriter writer;
 		try {
 			writer = new IndexWriter(index, config);
-			addDoc(writer, getContent());
+			addDoc(writer, getContent(startYear, endYear));
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Index created");
-	}
-	
-	public List<String> basicSearch(String query, int numResultsToSkip, int numResultsToReturn) {
-		
-		List<String> res = new ArrayList<String>();
 		/*
 		 * the "title" arg specifies the default field to use when no field
 		 * is explicitly in the query
 		 * */
 		Query q;
+		
 		try {
 			q = new QueryParser("title", analyzer).parse(query);
 			/* search */
@@ -94,9 +96,9 @@ public class SearchEngine_Lucene{
 		}
 	}
 	
-	private List<ArticleTitleAndAuthors> getContent(){
-		ReaderForBasicSearch reader = new ReaderForBasicSearch();
-		List<ArticleTitleAndAuthors> res = reader.getContent();
+	private List<ArticleTitleAndAuthors> getContent(String startYear, String endYear){
+		ReaderForRegionSearch reader = new ReaderForRegionSearch();
+		List<ArticleTitleAndAuthors> res = reader.getContent(startYear, endYear);
 		reader.closeResources();
 		return res;
 	}

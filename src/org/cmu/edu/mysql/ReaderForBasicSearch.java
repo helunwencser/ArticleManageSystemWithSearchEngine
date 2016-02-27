@@ -50,7 +50,7 @@ public class ReaderForBasicSearch {
 			e.printStackTrace();
 		}
 	}
-	   
+
 	public List<ArticleTitleAndAuthors> getContent(){
 		List<ArticleTitleAndAuthors> res = new ArrayList<ArticleTitleAndAuthors>();
 		try {

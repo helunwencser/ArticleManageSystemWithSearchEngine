@@ -10,7 +10,6 @@ import java.util.List;
 import org.cmu.edu.article.ArticleTitleAndAuthors;
 import org.cmu.edu.config.Config;
 
-
 public class ReaderForRegionSearch {
 	private String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	private String DB_URL = "jdbc:mysql://localhost/article";
@@ -50,22 +49,20 @@ public class ReaderForRegionSearch {
 			e.printStackTrace();
 		}
 	}
-	   
-/*
- * mysql> SET @poly =
-    -> 'Polygon((30000 15000,
-                 31000 15000,
-                 31000 16000,
-                 30000 16000,
-                 30000 15000))';
-    SELECT fid,AsText(g) FROM geom WHERE
-    MBRContains(GeomFromText(@poly),g);
- * */
-	public List<ArticleTitleAndAuthors> getContent(){
+
+	public List<ArticleTitleAndAuthors> getContent(String startYear, String endYear){
 		List<ArticleTitleAndAuthors> res = new ArrayList<ArticleTitleAndAuthors>();
 		try {
-			String query = "select title, authors from article_table";
-			ResultSet result = stmt.executeQuery(query);
+			String query ="SET @poly="
+					+ "'Polygon((" + startYear + " -1," + 
+								endYear + " -1," + 
+					            endYear + " 1," +
+					            startYear + " 1," +
+					            startYear + " -1))';";
+			stmt.execute(query);
+			String query1 = "select title, authors from article_table where " + 
+					            "MBRContains(GeomFromText(@poly), year);";
+			ResultSet result = stmt.executeQuery(query1);
 			while(result.next()){
 				res.add(new ArticleTitleAndAuthors(result.getString("title"), result.getString("authors")));
 			}

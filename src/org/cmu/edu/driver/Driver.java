@@ -1,9 +1,7 @@
 package org.cmu.edu.driver;
 
-import java.util.Scanner;
 import java.util.List;
-
-import org.cmu.edu.lucene.SearchEngine_Lucene;
+import java.util.Scanner;
 
 public class Driver {
 	public static String getQuery(Scanner scanner){
@@ -31,20 +29,5 @@ public class Driver {
 		for(String article : articles){
 			System.out.println("\t" + article);
 		}
-	}
-	
-	public static void main(String[] args){
-		SearchEngine_Lucene searchEngine = new SearchEngine_Lucene();
-		Scanner scanner = new Scanner(System.in);
-		while(true){
-			String query = getQuery(scanner);
-			if(query.equals("exit")){
-				break;
-			}
-			int numResultsToSkip = getNumber(scanner, "numResultsToSkip");
-			int numResultsToReturn = getNumber(scanner, "numResultsToReturn");
-			printResult(searchEngine.basicSearch(query, numResultsToSkip, numResultsToReturn));
-		}
-		scanner.close();
 	}
 }
